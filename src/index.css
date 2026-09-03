@@ -1,5 +1,4 @@
 /* Base + shell layout, built on the token layer (src/styles/tokens.css). */
-/* Base + shell layout, built on the token layer (src/styles/tokens.css). */
 
 *,
 *::before,
@@ -300,4 +299,50 @@ body {
 .post-list-title {
   margin: 0 0 var(--space-1);
   font-size: var(--text-1);
+}
+
+.bio-paragraph {
+  max-width: 42rem;
+}
+
+.section-heading {
+  margin-block-start: var(--space-5);
+}
+
+/*
+ * Experience timeline: a rail of entries, newest first as pasted. The rail
+ * border sits on the list, so entries never need width-bearing markers.
+ */
+.timeline {
+  margin: 0;
+  padding: 0 0 0 var(--space-3);
+  list-style: none;
+  border-left: 3px solid var(--line-0);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.timeline-item {
+  padding-left: var(--space-3);
+}
+
+.timeline-role {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.timeline-meta {
+  margin: 0 0 var(--space-2);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.timeline-highlights {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.timeline-highlights li {
+  margin: var(--space-1) 0;
 }
