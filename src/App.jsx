@@ -6,9 +6,9 @@ import Projects from './pages/Projects.jsx'
 import Writing from './pages/Writing.jsx'
 import WritingPost from './pages/WritingPost.jsx'
 import Contact from './pages/Contact.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 // Route table — main.jsx supplies the router (tests use MemoryRouter).
-// The catch-all 404 route lands with the NotFound page.
 export default function App() {
   return (
     <Routes>
@@ -19,6 +19,7 @@ export default function App() {
         <Route path="/writing" element={<Writing />} />
         <Route path="/writing/:slug" element={<WritingPost />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )
