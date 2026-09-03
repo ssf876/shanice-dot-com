@@ -1,42 +1,185 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* Base + shell layout, built on the token layer (src/styles/tokens.css). */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-0);
+  line-height: 1.6;
+  color: var(--ink-0);
+  background-color: var(--paper-0);
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 10;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-1);
+  background: var(--paper-1);
+  color: var(--accent-0);
+  text-decoration: none;
+
+  /* Hidden until keyboard-focused — it exists for the tab order. */
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--line-0);
+  background: var(--paper-1);
+}
+
+.site-nav {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-/* Page container — carried over from the removed template App.css */
-#root {
-  max-width: 1280px;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: var(--space-3) var(--gutter);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.site-nav a {
+  padding: var(--space-1) 0;
+  color: var(--ink-1);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--ink-0);
+}
+
+.site-nav a.active {
+  color: var(--accent-0);
+  font-weight: 600;
+}
+
+.site-main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter) var(--space-6);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--gutter);
+  border-top: 1px solid var(--line-0);
+  color: var(--ink-2);
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.social-links {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-links a {
+  color: var(--accent-0);
+}
+
+.page-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.page-subtitle {
+  margin: 0 0 var(--space-5);
+  color: var(--ink-1);
+  font-size: var(--text-1);
+}
+
+.post-meta {
+  margin: 0 0 var(--space-5);
+  color: var(--ink-2);
+}
+
+.post-body {
+  max-width: 46rem;
+}
+
+.post-body h2 {
+  margin: var(--space-5) 0 var(--space-3);
+  line-height: 1.2;
+}
+
+.post-body a {
+  color: var(--accent-0);
+}
+
+.post-body code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-1);
+  background: var(--accent-soft);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.post-body li {
+  margin: var(--space-1) 0;
+}
+
+.button {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-1);
+  background: var(--accent-0);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--accent-1);
+}
+
+.stub-note {
+  margin-top: var(--space-5);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--line-0);
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+/*
+ * Single-column collapse below 700px (spec): footer rows stack and spacing
+ * tightens. PR 4's content grids adopt the same breakpoint.
+ */
+@media (max-width: 699.98px) {
+  .site-nav {
+    gap: var(--space-2) var(--space-3);
+    padding-block: var(--space-3);
+  }
+
+  .site-main {
+    padding-block-start: var(--space-4);
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
