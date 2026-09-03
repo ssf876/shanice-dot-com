@@ -1,4 +1,5 @@
 /* Base + shell layout, built on the token layer (src/styles/tokens.css). */
+/* Base + shell layout, built on the token layer (src/styles/tokens.css). */
 
 *,
 *::before,
@@ -156,7 +157,8 @@ body {
   background: var(--accent-1);
 }
 
-.stub-note {
+.stub-note,
+.empty-note {
   margin-top: var(--space-5);
   padding-left: var(--space-3);
   border-left: 3px solid var(--line-0);
@@ -182,4 +184,120 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+/*
+ * Page bodies: hero, card grids, post lists — all on the shared tokens.
+ * Grids use auto-fill with a min(100%, …) floor so cards collapse to one
+ * column instead of overflowing on narrow viewports (375px included).
+ */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.hero {
+  padding-block: var(--space-5) 0;
+}
+
+.hero-lede {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--ink-1);
+  font-size: var(--text-1);
+}
+
+.hero-cta {
+  margin-block-start: var(--space-4);
+}
+
+.home-section {
+  margin-block-start: var(--space-6);
+}
+
+.section-more {
+  margin-block: var(--space-3) 0;
+}
+
+.card-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--line-0);
+  border-radius: var(--radius-1);
+  background: var(--paper-1);
+  overflow-wrap: break-word;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.card-tagline {
+  margin: 0;
+  color: var(--ink-1);
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tech-chip {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.card-links {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.card-links a {
+  color: var(--accent-0);
+  font-weight: 600;
+}
+
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-list-item {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line-0);
+}
+
+.post-list-item:last-child {
+  border-bottom: 0;
+}
+
+.post-list-title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-1);
 }

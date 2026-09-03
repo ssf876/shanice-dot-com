@@ -26,3 +26,17 @@ export function parsePost(path, raw) {
 export const posts = Object.entries(files)
   .map(([path, raw]) => parsePost(path, raw))
   .sort((a, b) => new Date(b.date) - new Date(a.date))
+
+// Human display for a frontmatter date (ISO string or YAML Date). Pinned to
+// UTC so the rendered day never shifts with the viewer's timezone. An
+// unparseable date throws here at render/test time — the validators already
+// fail it in CI before it can reach a visitor.
+export function formatPostDate(date) {
+  const value = date instanceof Date ? date : new Date(`${date}T00:00:00Z`)
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(value)
+}
