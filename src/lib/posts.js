@@ -1,4 +1,5 @@
 // Build-time markdown pipeline (spec: "Writing pipeline"). import.meta.glob is
+// Build-time markdown pipeline (spec: "Writing pipeline"). import.meta.glob is
 // resolved by Vite/Vitest, so posts are ordinary modules — no runtime fetching,
 // and the deployed site stays fully static. Publishing a post = commit markdown
 // + redeploy.
@@ -26,3 +27,30 @@ export function parsePost(path, raw) {
 export const posts = Object.entries(files)
   .map(([path, raw]) => parsePost(path, raw))
   .sort((a, b) => new Date(b.date) - new Date(a.date))
+
+// Tags actually in use across the posts, alphabetized — the filter bar's
+// source of truth, so a tag with no posts can never be offered.
+export function collectTags(postList) {
+  return [...new Set(postList.flatMap((post) => post.tags ?? []))].sort((a, b) =>
+    a.localeCompare(b),
+  )
+}
+
+// Posts carrying the given tag, preserving the newest-first order of `posts`.
+export function filterPostsByTag(postList, tag) {
+  return postList.filter((post) => (post.tags ?? []).includes(tag))
+}
+
+// Human display for a frontmatter date (ISO string or YAML Date). Pinned to
+// UTC so the rendered day never shifts with the viewer's timezone. An
+// unparseable date throws here at render/test time — the validators already
+// fail it in CI before it can reach a visitor.
+export function formatPostDate(date) {
+  const value = date instanceof Date ? date : new Date(`${date}T00:00:00Z`)
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(value)
+}
