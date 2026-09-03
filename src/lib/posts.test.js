@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parsePost, posts } from './posts.js'
+import { collectTags, filterPostsByTag, formatPostDate, parsePost, posts } from './posts.js'
 import malformedFrontmatter from '../test/fixtures/malformed-frontmatter.md?raw'
 
 describe('markdown pipeline', () => {
@@ -36,5 +36,34 @@ describe('markdown pipeline', () => {
     expect(() =>
       parsePost('malformed-frontmatter.md', malformedFrontmatter),
     ).toThrow()
+  })
+})
+
+describe('tag helpers', () => {
+  it('collects the tags in use, alphabetized and unique', () => {
+    expect(collectTags([{ tags: ['b', 'a'] }, { tags: ['a', 'c'] }, {}])).toEqual([
+      'a',
+      'b',
+      'c',
+    ])
+  })
+
+  it('filters to posts carrying the tag, preserving list order', () => {
+    const list = [
+      { slug: 'newer', tags: ['x'] },
+      { slug: 'older', tags: ['y'] },
+    ]
+    expect(filterPostsByTag(list, 'x')).toEqual([{ slug: 'newer', tags: ['x'] }])
+    expect(filterPostsByTag(list, 'nope')).toEqual([])
+  })
+})
+
+describe('formatPostDate', () => {
+  it('formats an ISO frontmatter date, pinned to UTC', () => {
+    expect(formatPostDate('2026-09-01')).toBe('September 1, 2026')
+  })
+
+  it('accepts the Date instance front-matter can yield for unquoted YAML', () => {
+    expect(formatPostDate(new Date('2026-08-15T00:00:00Z'))).toBe('August 15, 2026')
   })
 })
