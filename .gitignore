@@ -22,5 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files — real config lives in a local .env, never in the repo.
+# .env.example is the committed template and stays tracked.
+.env
+.env.*
+!.env.example
 src/firebaseConfig.js
 src/firebase.js
