@@ -31,6 +31,9 @@ export default function WritingPost() {
       </p>
       {/* Build-time markdown→HTML from the trusted repo pipeline (spec). */}
       <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
+      <p>
+        <Link to="/writing">Back to all writing</Link>
+      </p>
     </article>
   )
 }
