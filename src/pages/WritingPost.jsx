@@ -1,12 +1,15 @@
 import { Link, useParams } from 'react-router-dom'
-import { posts } from '../lib/posts.js'
+import { formatPostDate, posts } from '../lib/posts.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { sectionTitle } from '../lib/titles.js'
 
-// Stub — a wrong slug gets a real recovery path instead of a white screen.
+// Spec route table for /writing/:slug: rendered markdown with title/date.
+// A wrong slug gets a real recovery path instead of a white screen — the
+// not-found state links back to the full post list.
 export default function WritingPost() {
   const { slug } = useParams()
   const post = posts.find((candidate) => candidate.slug === slug)
+
   usePageTitle(post ? sectionTitle(post.title) : sectionTitle('Post not found'))
 
   if (!post) {
@@ -27,7 +30,7 @@ export default function WritingPost() {
     <article>
       <h1 className="page-title">{post.title}</h1>
       <p className="post-meta">
-        <time dateTime={post.date}>{post.date}</time>
+        <time dateTime={post.date}>{formatPostDate(post.date)}</time>
       </p>
       {/* Build-time markdown→HTML from the trusted repo pipeline (spec). */}
       <div className="post-body" dangerouslySetInnerHTML={{ __html: post.html }} />
