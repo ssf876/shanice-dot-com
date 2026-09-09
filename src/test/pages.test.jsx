@@ -30,23 +30,24 @@ const renderPostRoute = (path) =>
 const newestFirst = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date))
 
 describe('Home', () => {
-  it('renders the hero from the profile with a primary CTA to /contact', () => {
+  it('renders the approved positioning and all three hero destinations', () => {
     renderPage(<Home />)
 
-    expect(screen.getByRole('heading', { level: 1, name: profile.name })).toBeInTheDocument()
-    expect(screen.getByText(profile.title)).toBeInTheDocument()
-    // One-liner: the first bio paragraph leads the page.
-    expect(screen.getByText(profile.bio[0])).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Ask me anything' })).toHaveAttribute(
-      'href',
-      '/contact',
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Turning questions into clarity.',
     )
+    expect(screen.getByText('I ask interesting questions and build things to answer them, working across data, technology, and business and following interesting problems wherever they lead.')).toBeInTheDocument()
+    for (const [name, href] of [['View My Work', '/projects'], ['Read My Writing', '/writing'], ['Contact', '/contact']]) {
+      expect(screen.getByRole('link', { name })).toHaveAttribute('href', href)
+    }
+    expect(screen.queryByText(profile.bio[0])).not.toBeInTheDocument()
+    expect(screen.getByRole('complementary', { name: 'Currently interested in' })).toBeInTheDocument()
   })
 
-  it('features highlighted projects (capped at 3) as cards', () => {
+  it('features highlighted projects (capped at 3) as editorial entries', () => {
     renderPage(<Home />)
 
-    const featuredSection = screen.getByRole('region', { name: 'Featured projects' })
+    const featuredSection = screen.getByRole('region', { name: 'Selected work' })
     const featured = projects.filter((project) => project.highlight).slice(0, 3)
 
     for (const project of featured) {
@@ -71,6 +72,9 @@ describe('Home', () => {
       expect(
         within(latestSection).getByRole('link', { name: post.title }),
       ).toHaveAttribute('href', `/writing/${post.slug}`)
+    }
+    for (const post of latest) {
+      expect(within(latestSection).getByText(post.description)).toBeInTheDocument()
     }
     const postLinks = within(latestSection)
       .getAllByRole('link')

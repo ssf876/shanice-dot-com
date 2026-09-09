@@ -17,7 +17,7 @@ const renderRoute = (path) =>
 // expectations derive from the content model, so a paste-in keeps tests honest.
 const newestPost = posts[0]
 const ROUTES = [
-  { path: '/', heading: profile.name, title: `${profile.name} · ${profile.title}` },
+  { path: '/', heading: 'Turning questions into clarity.', title: `${profile.name} · ${profile.title}` },
   { path: '/about', heading: 'About', title: `About · ${profile.name}` },
   { path: '/projects', heading: 'Projects', title: `Projects · ${profile.name}` },
   { path: '/writing', heading: 'Writing', title: `Writing · ${profile.name}` },
@@ -35,7 +35,7 @@ describe('route smoke', () => {
     renderRoute('/')
 
     expect(
-      screen.getByRole('heading', { level: 1, name: profile.name }),
+      screen.getByRole('heading', { level: 1, name: 'Turning questions into clarity.' }),
     ).toBeInTheDocument()
   })
 
@@ -69,7 +69,7 @@ describe('route smoke', () => {
       ['Projects', 'Projects'],
       ['Writing', 'Writing'],
       ['Contact', 'Contact'],
-      ['Home', profile.name],
+      [`${profile.name} — Home`, 'Turning questions into clarity.'],
     ]) {
       fireEvent.click(within(nav).getByRole('link', { name: label }))
       expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument()

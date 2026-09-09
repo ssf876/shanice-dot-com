@@ -2,7 +2,6 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { profile } from '../content/profile.js'
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
   { to: '/projects', label: 'Projects' },
   { to: '/writing', label: 'Writing' },
@@ -16,6 +15,9 @@ export default function Layout() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header">
         <nav className="site-nav" aria-label="Primary">
+          <NavLink className="site-brand" to="/" end aria-label={`${profile.name} — Home`}>
+            {profile.name}
+          </NavLink>
           {NAV_ITEMS.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end}>
               {item.label}
@@ -29,6 +31,7 @@ export default function Layout() {
       <footer className="site-footer">
         <p>© {new Date().getFullYear()} {profile.name}</p>
         <ul className="social-links">
+          <li><NavLink to="/contact">Contact</NavLink></li>
           {profile.socials.map((social) => (
             <li key={social.url}>
               <a href={social.url}>{social.label}</a>
