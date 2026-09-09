@@ -10,6 +10,7 @@ import WritingPost from '../pages/WritingPost.jsx'
 import Contact from '../pages/Contact.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
 import { profile } from '../content/profile.js'
+import { home } from '../content/home.js'
 import { projects } from '../content/projects.js'
 import { posts } from '../lib/posts.js'
 
@@ -30,18 +31,20 @@ const renderPostRoute = (path) =>
 const newestFirst = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date))
 
 describe('Home', () => {
-  it('renders the approved positioning and all three hero destinations', () => {
+  it('renders the current homepage content and all three hero destinations', () => {
     renderPage(<Home />)
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Turning questions into clarity.',
+      `${home.headlineStart} ${home.headlineEnd} ${home.headlineEmphasis}.`,
     )
-    expect(screen.getByText('I ask interesting questions and build things to answer them, working across data, technology, and business and following interesting problems wherever they lead.')).toBeInTheDocument()
+    expect(screen.getByText(home.supporting)).toBeInTheDocument()
     for (const [name, href] of [['View My Work', '/projects'], ['Read My Writing', '/writing'], ['Contact', '/contact']]) {
       expect(screen.getByRole('link', { name })).toHaveAttribute('href', href)
     }
-    expect(screen.queryByText(profile.bio[0])).not.toBeInTheDocument()
-    expect(screen.getByRole('complementary', { name: 'Currently interested in' })).toBeInTheDocument()
+    const interests = screen.getByRole('complementary')
+    expect(interests).toHaveAccessibleName()
+    expect(within(interests).getAllByRole('listitem').map((item) => item.textContent))
+      .toEqual(home.interests)
   })
 
   it('features highlighted projects (capped at 3) as editorial entries', () => {
