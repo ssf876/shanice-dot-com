@@ -1,74 +1,89 @@
-/*
- * Design tokens — the single source for color, type, and space.
- * Light values live on :root; the dark variant overrides the SAME token names
- * under prefers-color-scheme: dark, so themes never fork the markup or styles.
- * (Spec: plain CSS custom properties, no UI framework.)
+/* Design system v1 — espresso + warm creative studio.
+ * Fixed dark theme: brand surfaces stay brown regardless of OS preference.
+ * Accent fills use espresso text; never use cream text on bright accents.
  */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* paper — surfaces */
-  --paper-0: #faf8f4; /* page */
-  --paper-1: #ffffff; /* raised: header, cards */
+  /* Palette primitives */
+  --espresso-950: #2b1913;
+  --espresso-900: #36221a;
+  --espresso-800: #483025;
+  --cream-100: #f6eddd;
+  --taupe-200: #d8c5af;
+  --taupe-400: #bca58e;
+  --orange-400: #ee9865;
+  --orange-300: #ffb184;
+  --lime-300: #d4e66a;
+  --note-200: #e5d9a8;
 
-  /* ink — text, strongest to muted */
-  --ink-0: #1d1f24;
-  --ink-1: #4c515e;
-  --ink-2: #686d7b;
+  /* Semantic roles; existing aliases keep consumers on one shared system. */
+  --paper-0: var(--espresso-950);
+  --paper-1: var(--espresso-900);
+  --paper-2: var(--espresso-800);
+  --ink-0: var(--cream-100);
+  --ink-1: var(--taupe-200);
+  --ink-2: var(--taupe-400);
+  --accent-0: var(--orange-400);
+  --accent-1: var(--orange-300);
+  --accent-soft: var(--espresso-800);
+  --accent-contrast: var(--espresso-950);
+  --signal-0: var(--lime-300);
+  --note-0: var(--note-200);
+  --line-0: #644937; /* decorative separators */
+  --line-1: #a1846c; /* identifiable control boundaries */
+  --focus-0: var(--lime-300);
+  --selection-bg: var(--note-200);
+  --selection-ink: var(--espresso-950);
 
-  /* accent — links, active nav, CTAs (AA contrast on both paper values) */
-  --accent-0: #9c3d18;
-  --accent-1: #7c2f12; /* hover/press */
-  --accent-soft: #f3e4da; /* accent-tinted surface */
-  --accent-contrast: #ffffff; /* text on accent fills */
+  /* Sans throughout the interface; monospace reserved for literal code. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --weight-body: 400;
+  --weight-label: 600;
+  --weight-heading: 800;
+  --text-small: 0.875rem;
+  --text-0: 1.0625rem;
+  --text-1: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --text-2: clamp(2.75rem, 1.8rem + 4vw, 5rem);
+  --text-section: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --leading-body: 1.75;
+  --leading-heading: 1.08;
+  --leading-compact: 1.35;
+  --tracking-heading: -0.045em;
 
-  --line-0: #e4dfd4; /* hairlines */
-
-  --focus-0: #2f56d0; /* focus ring, distinct from accent in both themes */
-
-  /* type */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
-  --text-0: 1rem;
-  --text-1: 1.1875rem;
-  --text-2: clamp(1.75rem, 1.3rem + 1.8vw, 2.375rem);
-
-  /* space + layout */
+  /* Spacing and readable measures */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 1rem;
   --space-4: 1.5rem;
   --space-5: 2.5rem;
   --space-6: 4rem;
+  --space-7: 6rem;
   --content-width: 64rem;
+  --reading-width: 65ch;
   --gutter: clamp(1rem, 4vw, 2rem);
+  --control-size: 2.75rem;
+
   --radius-1: 0.375rem;
+  --radius-2: 0.75rem;
+  --radius-pill: 999px;
+  --border-width: 1px;
+  --border-accent: 3px;
+  --border-subtle: var(--border-width) solid var(--line-0);
+  --border-control: var(--border-width) solid var(--line-1);
+  --focus-width: 2px;
+  --focus-offset: 4px;
+
+  --motion-fast: 140ms;
+  --motion-normal: 220ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-reduced-motion: reduce) {
   :root {
-    color-scheme: dark;
-
-    --paper-0: #17181d;
-    --paper-1: #1f2127;
-
-    --ink-0: #ece9e2;
-    --ink-1: #b6b4ae;
-    --ink-2: #8c8a86;
-
-    --accent-0: #e8825a;
-    --accent-1: #f0956e;
-    --accent-soft: #3a2a22;
-    --accent-contrast: #17181d;
-
-    --line-0: #34363e;
-
-    --focus-0: #93a8f0;
+    --motion-fast: 0ms;
+    --motion-normal: 0ms;
   }
-}
-
-/* One visible, keyboard-only focus treatment for every interactive element. */
-:focus-visible {
-  outline: 2px solid var(--focus-0);
-  outline-offset: 2px;
 }
