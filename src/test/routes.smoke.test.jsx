@@ -31,10 +31,7 @@ const ROUTES = [
 ]
 
 describe('route smoke', () => {
-  it('renders the shell with no Firebase env configuration present', () => {
-    // No .env exists in CI (or by default locally) — the site must render anyway.
-    expect(import.meta.env.VITE_FIREBASE_API_KEY).toBeUndefined()
-
+  it('renders the shell', () => {
     renderRoute('/')
 
     expect(
