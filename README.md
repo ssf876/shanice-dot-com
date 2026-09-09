@@ -1,6 +1,6 @@
 # shanice-dot-com
 
-Personal portfolio site for Shanice Sinclair — Vite + React, deployed to Firebase Hosting.
+Personal portfolio site for Shanice Sinclair — Vite + React, deployed and hosted with Vercel.
 
 ## Local development
 
@@ -18,14 +18,19 @@ clone passes out of the box.
 
 ## Deploy
 
-```bash
-npm run build && npx firebase deploy
-```
+GitHub is the source of truth. Vercel is connected to the repository and builds
+and deploys changes from Git. The production branch is `main`.
 
-The Hosting target comes from `.firebaserc` (project `shanicedotcom-62fa1`);
-`firebase.json` serves `dist/` with SPA rewrites. `firebase deploy` needs
-Firebase auth on your machine first (`npx firebase login`), so deploys run
-where you're logged in, not in CI.
+The intended deployment flow is:
+
+feature branch → PR → CI → Vercel preview → merge to `main` → Vercel production deployment
+
+CI runs `npm run lint`, `npm test`, and `npm run build` for pull requests targeting
+`main`. Review the code and Vercel preview before merging. Merging to `main` is
+a production release because Vercel automatically deploys that branch.
+
+The root `index.html` is the Vite application entry point and loads
+`src/main.jsx`. `npm run build` generates the production site in `dist/`.
 
 ## How credentials are handled
 
