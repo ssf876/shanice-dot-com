@@ -13,8 +13,7 @@ npm run build     # production build → dist/
 ```
 
 Tests use Vitest + Testing Library (jsdom) with jest-axe for accessibility
-assertions. The smoke test renders the app with no `.env` present, so a fresh
-clone passes out of the box.
+assertions. No `.env` is required to build, run, or test the site.
 
 ## Deploy
 
@@ -36,15 +35,10 @@ The root `index.html` is the Vite application entry point and loads
 
 This repo is treated as **permanently public**. Two consequences:
 
-1. **No secret is ever required to build or run the site.** Firebase
-   configuration is read from Vite env vars (`import.meta.env.VITE_*` — see
-   `.env.example`). Copy `.env.example` to `.env` and fill it in locally;
-   `.env` and `.env.*` are gitignored, as are `src/firebase.js` and
-   `src/firebaseConfig.js`. With no `.env` present the site builds and renders
-   with Firebase uninitialized (`getFirebaseApp()` returns `null`).
+1. **No secret or environment configuration is required to build or run the
+   site.** `.env.example` documents this default. Local `.env` and `.env.*`
+   files are gitignored, except for `.env.example`.
 
-2. **A Firebase web API key is public by design** — it ships in the browser
-   bundle the moment Firebase is initialized. The real controls live on the
-   provider side: rotate the key in the Google Cloud console and restrict it
-   (HTTP referrer restrictions, API restrictions). Treat anything
-   credential-shaped in this repo as exposed and rotate immediately.
+2. **Never put secrets in browser-exposed `VITE_*` variables.** Keep API keys,
+   credentials, and tokens out of Git. Treat any committed secret as exposed
+   and rotate it immediately.
