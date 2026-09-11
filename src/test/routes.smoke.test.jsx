@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { axe } from 'jest-axe'
 import App from '../App.jsx'
 import { profile } from '../content/profile.js'
+import { home } from '../content/home.js'
 import { posts } from '../lib/posts.js'
 
 const renderRoute = (path) =>
@@ -16,8 +17,9 @@ const renderRoute = (path) =>
 // Route → its level-1 heading and expected document.title. Post and title
 // expectations derive from the content model, so a paste-in keeps tests honest.
 const newestPost = posts[0]
+const homepageHeading = `${home.headlineStart} ${home.headlineEnd} ${home.headlineEmphasis}.`
 const ROUTES = [
-  { path: '/', heading: profile.name, title: `${profile.name} · ${profile.title}` },
+  { path: '/', heading: homepageHeading, title: `${profile.name} · ${profile.title}` },
   { path: '/about', heading: 'About', title: `About · ${profile.name}` },
   { path: '/projects', heading: 'Projects', title: `Projects · ${profile.name}` },
   { path: '/writing', heading: 'Writing', title: `Writing · ${profile.name}` },
@@ -35,7 +37,7 @@ describe('route smoke', () => {
     renderRoute('/')
 
     expect(
-      screen.getByRole('heading', { level: 1, name: profile.name }),
+      screen.getByRole('heading', { level: 1, name: homepageHeading }),
     ).toBeInTheDocument()
   })
 
@@ -69,7 +71,7 @@ describe('route smoke', () => {
       ['Projects', 'Projects'],
       ['Writing', 'Writing'],
       ['Contact', 'Contact'],
-      ['Home', profile.name],
+      [`${profile.name} — Home`, homepageHeading],
     ]) {
       fireEvent.click(within(nav).getByRole('link', { name: label }))
       expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument()

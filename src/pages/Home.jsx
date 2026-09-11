@@ -1,14 +1,10 @@
 import { Link } from 'react-router-dom'
-import { profile } from '../content/profile.js'
 import { projects } from '../content/projects.js'
 import { formatPostDate, posts } from '../lib/posts.js'
-import ProjectCard from '../components/ProjectCard.jsx'
+import { home } from '../content/home.js'
 import { usePageTitle } from '../hooks/usePageTitle.js'
 import { homeTitle } from '../lib/titles.js'
 
-// Spec route table for /: hero (name, title, one-liner, primary CTA),
-// featured projects (max 3, via the highlight flag), latest 3 posts. Every
-// string renders from the content model — nothing page-specific is hardcoded.
 const FEATURED_LIMIT = 3
 const LATEST_POSTS_LIMIT = 3
 
@@ -23,26 +19,52 @@ export default function Home() {
   return (
     <>
       <section className="hero" aria-labelledby="hero-heading">
-        <h1 id="hero-heading" className="page-title">
-          {profile.name}
-        </h1>
-        <p className="page-subtitle">{profile.title}</p>
-        {profile.bio[0] && <p className="hero-lede">{profile.bio[0]}</p>}
-        <p className="hero-cta">
-          <Link className="button" to="/contact">
-            Ask me anything
-          </Link>
-        </p>
+        <div className="hero-copy">
+          <h1 id="hero-heading" className="page-title hero-title">
+            <span>{home.headlineStart}</span>{' '}
+            <span>{home.headlineEnd} <em>{home.headlineEmphasis}</em>.</span>
+          </h1>
+          <p className="hero-lede">{home.supporting}</p>
+          <div className="hero-cta">
+            <Link className="button" to="/projects">
+              View My Work <span aria-hidden="true">↗</span>
+            </Link>
+            <Link className="button button-secondary" to="/writing">Read My Writing</Link>
+            <Link className="contact-link" to="/contact">
+              Contact <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+        <aside className="hero-sidebar" aria-labelledby="interests-heading">
+          <h2 id="interests-heading" className="eyebrow">Currently interested in</h2>
+          <ul>
+            {home.interests.map((interest) => <li key={interest}>{interest}</li>)}
+          </ul>
+        </aside>
       </section>
 
       <section className="home-section" aria-labelledby="featured-projects-heading">
-        <h2 id="featured-projects-heading">Featured projects</h2>
+        <h2 id="featured-projects-heading">Selected work</h2>
         {featured.length === 0 ? (
           <p className="empty-note">No featured projects yet — check back soon.</p>
         ) : (
-          <div className="card-grid">
+          <div className="selected-work">
             {featured.map((project) => (
-              <ProjectCard key={project.title} project={project} headingLevel={3} />
+              <article className="work-entry" key={project.title}>
+                <h3>{project.title}</h3>
+                <div>
+                  <p>{project.tagline}</p>
+                  <ul className="work-tech" aria-label={`Technologies used in ${project.title}`}>
+                    {project.tech.map((tech) => <li key={tech}>{tech}</li>)}
+                  </ul>
+                  {(project.url || project.repo) && (
+                    <p className="card-links">
+                      {project.url && <a href={project.url}>Live demo<span className="visually-hidden"> of {project.title}</span></a>}
+                      {project.repo && <a href={project.repo}>Code<span className="visually-hidden"> for {project.title}</span></a>}
+                    </p>
+                  )}
+                </div>
+              </article>
             ))}
           </div>
         )}
@@ -56,12 +78,13 @@ export default function Home() {
         {latestPosts.length === 0 ? (
           <p className="empty-note">No posts yet — check back soon.</p>
         ) : (
-          <ul className="post-list">
+          <ul className="post-list home-writing">
             {latestPosts.map((post) => (
               <li key={post.slug} className="post-list-item">
                 <h3 className="post-list-title">
                   <Link to={`/writing/${post.slug}`}>{post.title}</Link>
                 </h3>
+                <p className="post-description">{post.description}</p>
                 <p className="post-meta">
                   <time dateTime={post.date}>{formatPostDate(post.date)}</time>
                 </p>
