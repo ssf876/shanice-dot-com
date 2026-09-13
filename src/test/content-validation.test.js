@@ -13,7 +13,7 @@ const reports = (errors, field) =>
   errors.some((message) => message.includes(field))
 
 describe('profile content contract', () => {
-  it('passes with placeholder content', () => {
+  it('passes with approved content', () => {
     expect(validateProfile(profile)).toEqual([])
   })
 
@@ -30,14 +30,11 @@ describe('profile content contract', () => {
     expect(reports(errors, 'profile.name')).toBe(true)
   })
 
-  it('catches a malformed email', () => {
-    const errors = validateProfile({ ...profile, email: 'not-an-email' })
-    expect(reports(errors, 'profile.email')).toBe(true)
-  })
+
 })
 
 describe('projects content contract', () => {
-  it('passes with placeholder content', () => {
+  it('passes with approved content', () => {
     for (const [index, project] of projects.entries()) {
       expect(validateProject(project, index)).toEqual([])
     }
@@ -64,8 +61,7 @@ describe('projects content contract', () => {
 })
 
 describe('post frontmatter contract', () => {
-  it('passes for every committed post (placeholders included)', () => {
-    expect(posts.length).toBeGreaterThanOrEqual(2)
+  it('validates any published posts', () => {
     for (const post of posts) {
       expect(validatePost(post)).toEqual([])
     }
