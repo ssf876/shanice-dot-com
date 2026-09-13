@@ -12,7 +12,7 @@ export const timeline = [
     id: 'paypal-analyst', category: 'Work', company: 'PAYPAL / BRAINTREE',
     role: 'Data Analyst', period: '2023–2026',
     description: 'Risk analytics, transaction data, and analytical infrastructure.',
-    detail: '93% → 99.9% transaction coverage', row: 2, start: 1, end: 2,
+    detail: 'Python · SQL', row: 2, start: 1, end: 2,
   },
   {
     id: 'columbia', category: 'Education', company: 'COLUMBIA UNIVERSITY',
