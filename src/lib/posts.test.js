@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { collectTags, filterPostsByTag, formatPostDate, parsePost, posts } from './posts.js'
+import { collectTags, filterPostsByTag, formatPostDate, parsePost, posts as publishedPosts } from './posts.js'
+import helloRaw from '../test/fixtures/hello-world.md?raw'
+import careerRaw from '../test/fixtures/from-spreadsheets-to-code.md?raw'
 import malformedFrontmatter from '../test/fixtures/malformed-frontmatter.md?raw'
+
+const posts = [parsePost('hello-world.md', helloRaw), parsePost('from-spreadsheets-to-code.md', careerRaw)]
+
+it('does not publish sample writing', () => expect(publishedPosts).toEqual([]))
 
 describe('markdown pipeline', () => {
   it('derives the slug from the filename', () => {

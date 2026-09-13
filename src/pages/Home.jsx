@@ -29,7 +29,7 @@ export default function Home() {
             <Link className="button" to="/projects">
               View My Work <span aria-hidden="true">↗</span>
             </Link>
-            <Link className="button button-secondary" to="/writing">Read My Writing</Link>
+            {posts.length > 0 && <Link className="button button-secondary" to="/writing">Read My Writing</Link>}
             <Link className="contact-link" to="/contact">
               Contact <span aria-hidden="true">→</span>
             </Link>
@@ -53,7 +53,7 @@ export default function Home() {
               <article className="work-entry" key={project.title}>
                 <h3>{project.title}</h3>
                 <div>
-                  <p>{project.tagline}</p>
+                  <p>{project.summary}</p>
                   <ul className="work-tech" aria-label={`Technologies used in ${project.title}`}>
                     {project.tech.map((tech) => <li key={tech}>{tech}</li>)}
                   </ul>
@@ -73,7 +73,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="home-section" aria-labelledby="latest-writing-heading">
+      {latestPosts.length > 0 && <section className="home-section" aria-labelledby="latest-writing-heading">
         <h2 id="latest-writing-heading">Latest writing</h2>
         {latestPosts.length === 0 ? (
           <p className="empty-note">No posts yet — check back soon.</p>
@@ -95,7 +95,7 @@ export default function Home() {
         <p className="section-more">
           <Link to="/writing">All writing</Link>
         </p>
-      </section>
+      </section>}
     </>
   )
 }

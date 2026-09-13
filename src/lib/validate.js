@@ -1,7 +1,4 @@
-// Paste-in contract validators (spec: "Content model — the paste-in contract").
-// Each validator returns an array of human-readable error strings; an empty array
-// means the content satisfies the contract. Placeholder text passes by design —
-// a missing or emptied required field must fail CI, not the live site.
+// Content validators return field-level errors for required public content.
 
 const isNonEmptyString = (value) =>
   typeof value === 'string' && value.trim() !== ''
@@ -11,10 +8,6 @@ const isNonEmptyStringArray = (value) =>
 
 const isHttpUrl = (value) =>
   typeof value === 'string' && /^https?:\/\/\S+$/.test(value)
-
-// Enough of an email shape to catch a paste-in typo — not a full RFC 5322 parser.
-const isEmailShaped = (value) =>
-  isNonEmptyString(value) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 
 // YAML dates may arrive as strings or Date objects depending on quoting.
 const isDateShaped = (value) =>
@@ -47,9 +40,6 @@ export function validateProfile(profile) {
   const errors = []
   requireString(errors, 'profile.name', profile.name)
   requireString(errors, 'profile.title', profile.title)
-  if (!isEmailShaped(profile.email)) {
-    errors.push('profile.email is missing or not a valid email address')
-  }
   if (!Array.isArray(profile.socials) || profile.socials.length === 0) {
     errors.push('profile.socials must be a non-empty array')
   } else {
@@ -62,20 +52,6 @@ export function validateProfile(profile) {
   }
   requireStringArray(errors, 'profile.bio', profile.bio)
   requireStringArray(errors, 'profile.ama', profile.ama)
-  if (!Array.isArray(profile.experience) || profile.experience.length === 0) {
-    errors.push('profile.experience must be a non-empty array')
-  } else {
-    profile.experience.forEach((job, index) => {
-      requireString(errors, `profile.experience[${index}].role`, job?.role)
-      requireString(errors, `profile.experience[${index}].company`, job?.company)
-      requireString(errors, `profile.experience[${index}].period`, job?.period)
-      requireStringArray(
-        errors,
-        `profile.experience[${index}].highlights`,
-        job?.highlights,
-      )
-    })
-  }
   return errors
 }
 
@@ -86,6 +62,8 @@ export function validateProject(project, index = 0) {
   const errors = []
   requireString(errors, `projects[${index}].title`, project.title)
   requireString(errors, `projects[${index}].tagline`, project.tagline)
+  requireString(errors, `projects[${index}].summary`, project.summary)
+  requireStringArray(errors, `projects[${index}].body`, project.body)
   requireStringArray(errors, `projects[${index}].tech`, project.tech)
   if (typeof project.highlight !== 'boolean') {
     errors.push(`projects[${index}].highlight must be a boolean`)

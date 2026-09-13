@@ -4,7 +4,7 @@ import { profile } from '../content/profile.js'
 
 describe('page titles', () => {
   it('composes the home title from the content model', () => {
-    expect(homeTitle()).toBe(`${profile.name} · ${profile.title}`)
+    expect(homeTitle()).toBe(`${profile.name} | ${profile.title}`)
   })
 
   it('suffixes the site name for section pages', () => {

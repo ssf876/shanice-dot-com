@@ -5,7 +5,6 @@ import { axe } from 'jest-axe'
 import App from '../App.jsx'
 import { profile } from '../content/profile.js'
 import { home } from '../content/home.js'
-import { posts } from '../lib/posts.js'
 
 const renderRoute = (path) =>
   render(
@@ -16,19 +15,13 @@ const renderRoute = (path) =>
 
 // Route → its level-1 heading and expected document.title. Post and title
 // expectations derive from the content model, so a paste-in keeps tests honest.
-const newestPost = posts[0]
 const homepageHeading = `${home.headlineStart} ${home.headlineEnd} ${home.headlineEmphasis}.`
 const ROUTES = [
-  { path: '/', heading: homepageHeading, title: `${profile.name} · ${profile.title}` },
+  { path: '/', heading: homepageHeading, title: `${profile.name} | ${profile.title}` },
   { path: '/about', heading: 'About', title: `About · ${profile.name}` },
   { path: '/projects', heading: 'Projects', title: `Projects · ${profile.name}` },
   { path: '/writing', heading: 'Writing', title: `Writing · ${profile.name}` },
-  {
-    path: `/writing/${newestPost.slug}`,
-    heading: newestPost.title,
-    title: `${newestPost.title} · ${profile.name}`,
-  },
-  { path: '/contact', heading: 'Contact', title: `Contact · ${profile.name}` },
+  { path: '/contact', heading: 'Let’s talk.', title: `Contact · ${profile.name}` },
   { path: '/no-such-page', heading: 'Page not found', title: `Page not found · ${profile.name}` },
 ]
 
@@ -69,8 +62,7 @@ describe('route smoke', () => {
     for (const [label, heading] of [
       ['About', 'About'],
       ['Projects', 'Projects'],
-      ['Writing', 'Writing'],
-      ['Contact', 'Contact'],
+      ['Contact', 'Let’s talk.'],
       [`${profile.name} — Home`, homepageHeading],
     ]) {
       fireEvent.click(within(nav).getByRole('link', { name: label }))
@@ -78,16 +70,9 @@ describe('route smoke', () => {
     }
   })
 
-  it('navigates from the writing index into a post and back out', () => {
-    renderRoute('/writing')
-
-    fireEvent.click(screen.getByRole('link', { name: new RegExp(newestPost.title) }))
-    expect(
-      screen.getByRole('heading', { level: 1, name: newestPost.title }),
-    ).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('link', { name: /Back to all writing/ }))
-    expect(screen.getByRole('heading', { level: 1, name: 'Writing' })).toBeInTheDocument()
+  it('hides Writing from primary navigation', () => {
+    renderRoute('/')
+    expect(within(screen.getByRole('navigation')).queryByRole('link', { name: 'Writing' })).not.toBeInTheDocument()
   })
 
   it('offers a way back from an unknown slug and an unknown URL', () => {

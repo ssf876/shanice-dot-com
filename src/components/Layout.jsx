@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { posts } from '../lib/posts.js'
 import { profile } from '../content/profile.js'
 
 const NAV_ITEMS = [
@@ -18,7 +19,7 @@ export default function Layout() {
           <NavLink className="site-brand" to="/" end aria-label={`${profile.name} — Home`}>
             {profile.name}
           </NavLink>
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.filter((item) => item.to !== '/writing' || posts.length > 0).map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end}>
               {item.label}
             </NavLink>
