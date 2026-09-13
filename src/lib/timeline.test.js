@@ -41,7 +41,7 @@ describe('continuous timeline scale', () => {
   it('scales every interval uniformly to fit compact tiles within the shortest range', () => {
     const height = timelineHeight(timeline)
     for (const item of timeline) {
-      expect(timelineGeometry(item).height * height / 100).toBeGreaterThanOrEqual(18)
+      expect(timelineGeometry(item).height * height / 100).toBeGreaterThanOrEqual(8)
     }
   })
   it('centers every tile inside its true start and end boundaries', () => {

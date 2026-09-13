@@ -13,7 +13,6 @@ export const profile = {
     }
   ],
   bio: [
-    'I’ve never fit particularly neatly into one professional box.',
     'I started my career in finance, working close to markets, products, and the systems that make financial institutions run. Over time, I became increasingly interested in the data underneath those systems: how it moved, where it broke, what patterns it revealed, and how better tooling could change the decisions people made.',
     'That curiosity pulled me deeper into analytics, fraud and risk, and eventually into software and data engineering.',
     'At PayPal, my work has ranged from investigating patterns across millions of transactions to building Python and SQL data pipelines, improving production data quality, developing analytical tooling, and helping modernize the infrastructure used to test and deploy data systems.',

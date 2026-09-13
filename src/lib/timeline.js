@@ -24,5 +24,5 @@ export const endpointLabel = (year, month) => month === null ? '' : `${months[mo
 
 // Give the shortest interval room for a compact tile. This enlarges the entire
 // scale uniformly, so all elapsed-time distances remain proportional.
-export const timelineHeight = (items, minimumIntervalRem = 18) =>
+export const timelineHeight = (items, minimumIntervalRem = 8) =>
   100 * minimumIntervalRem / Math.min(...items.map((item) => timelineGeometry(item).height))
