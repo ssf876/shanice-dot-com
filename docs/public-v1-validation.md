@@ -29,7 +29,7 @@ from the current content model and the local About branch, so none were invented
 On Node.js 20.20.2:
 
 - `npm run lint`: passed.
-- `npm test`: 83 tests passed across 8 files.
+- `npm test`: 90 tests passed across 9 files.
 - `npm run build`: passed.
 - `git diff --check`: passed.
 - Route/navigation and jest-axe accessibility tests passed.
@@ -95,3 +95,27 @@ On Node.js 20.20.2:
 - `src/test/public-content.test.jsx`
 - `src/test/routes.smoke.test.jsx`
 - `vercel.json`
+
+## Continuous chronology revision
+
+The user reviewed localhost and requested a continuous time scale. Future manual
+inspection is handed back with the localhost link rather than Computer Use.
+
+The final V1 timeline contains only Howard, BNP Global Markets Analyst, Columbia,
+PayPal Data Analyst, and PayPal Software Engineer. All internship entries are
+excluded. Known months are retained in normalized date fields and period labels.
+
+`src/lib/timeline.js` maps year + (month - 1) / 12 to percentages on one linear
+2016–end-of-2026 scale. A null month anchors at the numeric year without claiming
+January precision. The ongoing engineering range extends to the display cutoff,
+not an invented job end date. Tiles are centered between their actual start and end positions; separate
+brackets show durations. The entire scale expands uniformly so even the shortest
+interval has room for its compact tile. No tile-specific pixel offsets or equal-height experience rows
+are used. Desktop runs newest to oldest; mobile DOM order is oldest to newest.
+
+The known dates give a two-month gap between Howard and BNP, a BNP/Columbia
+overlap, and an approximate Columbia/PayPal overlap from year-only anchoring.
+PayPal ranges meet exactly at February 2026. Tests cover those relationships,
+proportional elapsed time, and preservation of unknown-month precision.
+
+Review this revision at http://localhost:5173/about.

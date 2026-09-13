@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import App from '../App.jsx'
-import { timeline, timelineYears } from '../content/timeline.js'
+import { timeline } from '../content/timeline.js'
 
 const routes = ['/', '/about', '/projects', '/writing', '/contact']
 
@@ -13,13 +13,13 @@ describe('public V1 content', () => {
     expect(container.innerHTML).not.toMatch(/mailto:|@gmail\.com/)
   })
 
-  it('keeps the timeline in descending start-year order with work and education labels', () => {
-    expect(timeline.map(({ period }) => Number(period.slice(0, 4)))).toEqual([2026, 2023, 2021, 2020, 2019, 2016])
-    for (const item of timeline) {
-      expect(['Work', 'Education']).toContain(item.category)
-      const dates = item.period.split('–').map(Number)
-      expect(timelineYears[item.start - 1]).toBe(Math.max(...dates))
-      expect(timelineYears[item.end - 1]).toBe(Math.min(...dates))
-    }
+  it('contains only the five V1 entries in oldest-first DOM order', () => {
+    expect(timeline.map(({ id }) => id)).toEqual([
+      'howard', 'bnp-analyst', 'columbia', 'paypal-analyst', 'paypal-engineer',
+    ])
+    render(<MemoryRouter initialEntries={['/about']}><App /></MemoryRouter>)
+    expect(screen.getAllByRole('article')).toHaveLength(5)
+    expect(screen.queryByText(/Internship|Summer Analyst/)).not.toBeInTheDocument()
+    for (const item of timeline) expect(['Work', 'Education']).toContain(item.category)
   })
 })

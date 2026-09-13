@@ -1,93 +1,93 @@
 .experience {
   margin-top: var(--space-6);
-  --timeline-step: 18rem;
-  --timeline-gap: 5rem;
+  --timeline-gap: 8rem;
 }
 .experience-labels {
   display: flex;
   justify-content: space-between;
-  padding-bottom: var(--space-4);
+  padding-bottom: var(--space-5);
   font-size: var(--text-small);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   color: var(--note-0);
 }
-.experience-chart { position: relative; }
-.experience-items, .experience-axis, .experience-ranges {
-  display: grid;
-  grid-template-rows: repeat(5, var(--timeline-step)) 3rem;
-}
-.experience-items {
-  grid-template-columns: minmax(0, 1fr) calc(var(--timeline-gap) * 2) minmax(0, 1fr);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.experience-axis, .experience-ranges {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+/* One uniform date scale; tiles are centered inside their own intervals. */
+.experience-chart { position: relative; margin-block: var(--space-4); }
+.experience-axis, .experience-items { position: relative; height: var(--timeline-height); }
+.experience-axis { position: absolute; inset-inline: 0; top: 0; pointer-events: none; }
 .experience-axis::before {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0;
-  bottom: 1.5rem;
+  inset-block: 0;
   border-left: 1px solid var(--note-0);
 }
-.experience-axis span {
-  justify-self: center;
-  align-self: start;
-  z-index: 1;
+.experience-axis > span {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 0.15rem 0.4rem;
   background: var(--paper-0);
   color: var(--note-0);
   font-size: var(--text-small);
   font-variant-numeric: tabular-nums;
 }
-.experience-range {
-  width: 0.7rem;
-  margin-top: 0.9rem;
-  margin-bottom: calc(var(--timeline-step) - 0.9rem);
-  border-block: 1px solid var(--ink-1);
-  justify-self: center;
-}
-.experience-range.work { transform: translateX(-2.4rem); border-left: 1px solid var(--ink-1); }
-.experience-range.education { transform: translateX(2.4rem); border-right: 1px solid var(--ink-1); }
-.experience-range:last-child { margin-bottom: 2.1rem; }
-.experience-item { position: relative; align-self: start; min-width: 0; }
-.experience-item.work { grid-column: 1; }
-.experience-item.education { grid-column: 3; }
-.experience-item::before {
-  content: '';
-  position: absolute;
-  top: 0.9rem;
-  width: calc(var(--timeline-gap) - 2.4rem);
-  border-top: 1px solid var(--ink-1);
-}
-.experience-item.work::before { left: 100%; }
-.experience-item.education::before { right: 100%; }
+.experience-items { list-style: none; padding: 0; margin: 0; }
+/* Each item uses the entire scale as its coordinate system. Only its compact
+   article and separate duration bracket paint content. No per-item offsets. */
+.experience-item { position: absolute; inset-block: 0; pointer-events: none; width: calc(50% - var(--timeline-gap)); }
+.experience-item.work { left: 0; }
+.experience-item.education { right: 0; }
 .experience-item article {
+  position: absolute;
+  top: var(--tile-center);
+  transform: translateY(-50%);
+  pointer-events: auto;
+  width: 100%;
   padding: var(--space-3);
   border-radius: var(--radius-1);
   background: var(--tile-color);
   color: var(--tile-ink, var(--espresso-950));
 }
+.experience-item article::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(var(--timeline-gap) - 2rem);
+  border-top: 1px solid var(--ink-1);
+}
+.experience-item.work article::before { left: 100%; }
+.experience-item.education article::before { right: 100%; }
+.experience-range {
+  position: absolute;
+  top: var(--range-top);
+  height: var(--range-height);
+  width: 0.5rem;
+  border-block: 1px solid var(--ink-1);
+}
+.work .experience-range { left: calc(100% + var(--timeline-gap) - 2rem); border-left: 1px solid var(--ink-1); }
+.education .experience-range { right: calc(100% + var(--timeline-gap) - 2rem); border-right: 1px solid var(--ink-1); }
+.experience-range span { position: absolute; white-space: nowrap; color: var(--ink-1); font-size: 0.75rem; background: var(--paper-0); }
+.work .experience-range span { right: 1rem; }
+.education .experience-range span { left: 1rem; }
+.range-end { top: 0; transform: translateY(-100%); }
+.range-start { bottom: 0; transform: translateY(100%); }
+/* One annotation at the shared PayPal boundary avoids duplicating Feb 2026. */
+.paypal-analyst .range-end { display: none; }
 .experience-item p { margin: 0.5rem 0 0; line-height: 1.5; font-size: var(--text-small); }
 .experience-item .experience-category { margin: 0 0 1rem; }
 .experience-category, .experience-company { font-weight: 600; letter-spacing: 0.04em; }
 .experience-item h3 { margin: 0.4rem 0 0.75rem; font-size: 1.35rem; line-height: 1.25; }
 .experience-detail { font-weight: 600; }
 .paypal-engineer { --tile-color: var(--work-engineer); }
-.paypal-analyst { --tile-color: var(--work-analyst); margin-left: 1rem; }
+.paypal-analyst { --tile-color: var(--work-analyst); }
 .bnp-analyst { --tile-color: var(--work-markets); }
-.bnp-summer { --tile-color: var(--work-summer); margin-left: 2rem; }
 .columbia { --tile-color: var(--education-columbia); --tile-ink: var(--cream-100); }
-.howard { --tile-color: var(--education-howard); margin-right: 1rem; }
+.howard { --tile-color: var(--education-howard); }
 @media (max-width: 60rem) {
-  .experience-labels, .experience-axis, .experience-ranges { display: none; }
-  .experience-items { display: flex; flex-direction: column; gap: var(--space-4); border-left: 1px solid var(--note-0); padding-left: var(--space-4); }
-  .experience-item { width: 100%; margin: 0; }
-  .experience-item.work::before, .experience-item.education::before { left: auto; right: 100%; width: var(--space-4); }
+  .experience-labels, .experience-axis, .experience-range { display: none; }
+  .experience-chart { padding-bottom: 0; }
+  .experience-items { height: auto; display: flex; flex-direction: column; gap: var(--space-4); border-left: 1px solid var(--note-0); padding-left: var(--space-4); }
+  .experience-item, .experience-item article { position: relative; inset: auto; width: 100%; transform: none; }
+  .experience-item.work article::before, .experience-item.education article::before { left: auto; right: 100%; top: 0.9rem; width: var(--space-4); }
 }
