@@ -3,6 +3,6 @@ export const home = {
   headlineStart: 'Turning questions',
   headlineEnd: 'into',
   headlineEmphasis: 'clarity',
-  supporting: 'Asking questions and building things to answer them. Working across data, technology, and business and following interesting problems wherever they lead.',
-  interests: ['AI in practice', 'Data systems', 'Risk & decision-making', 'Building useful things'],
+  supporting: 'I ask interesting questions and build things to answer them. I work across data, technology, and business, following interesting problems wherever they lead.',
+  interests: ['AI in practice', 'Data systems', 'Risk and decision-making', 'Building useful things'],
 }

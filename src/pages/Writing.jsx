@@ -43,7 +43,7 @@ export default function Writing() {
       )}
 
       {visiblePosts.length === 0 ? (
-        <p className="empty-note">No posts tagged “{activeTag}” yet.</p>
+        activeTag && <p className="empty-note">No posts tagged “{activeTag}” yet.</p>
       ) : (
         <ul className="post-list">
           {visiblePosts.map((post) => (
