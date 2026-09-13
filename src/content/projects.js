@@ -15,7 +15,7 @@ export const projects = [
       'Vite'
     ],
     url: '',
-    repo: '',
+    repo: 'https://github.com/ssf876/sika-planner-mvp',
     highlight: true
   },
   {
@@ -54,7 +54,7 @@ export const projects = [
       'Git'
     ],
     url: '',
-    repo: '',
+    repo: 'https://github.com/ssf876/Recipes',
     highlight: true
   }
 ]
