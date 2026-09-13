@@ -17,6 +17,15 @@
   --lime-300: #E3F272;
   --note-200: #F9E076;
 
+  /* Timeline categories reuse the palette; palm is the grounded education tone. */
+  --palm-700: #2F4731;
+  --work-engineer: var(--lime-300);
+  --work-analyst: var(--note-200);
+  --work-markets: color-mix(in srgb, var(--orange-400) 85%, var(--orange-300));
+  --work-summer: var(--orange-300);
+  --education-columbia: var(--palm-700);
+  --education-howard: var(--taupe-200);
+
   /* Semantic roles; existing aliases keep consumers on one shared system. */
   --paper-0: var(--espresso-950);
   --paper-1: var(--espresso-900);
