@@ -714,3 +714,12 @@ img, video, svg {
     gap: var(--space-2);
   }
 }
+
+/* Curated work keeps the existing editorial rhythm and reading measure. */
+.project-entry { padding-block: var(--space-5); border-bottom: var(--border-subtle); max-width: var(--reading-width); }
+.project-entry:first-child { padding-top: 0; }
+.project-entry .card-title { font-size: var(--text-section); }
+.project-entry .card-tagline { margin-top: var(--space-2); }
+.project-entry .card-links { margin-top: var(--space-3); }
+.elsewhere-entry { margin-block: var(--space-4); }
+.elsewhere-entry h3, .elsewhere-entry p { margin-block: var(--space-2); }

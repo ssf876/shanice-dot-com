@@ -1,20 +1,16 @@
-// One project card, shared by the Home featured grid and the Projects page.
-// url and repo are optional in the content contract — the link affordances
-// disappear entirely (never render disabled) when a project has neither.
-// headingLevel keeps the outline sequential: h2 on the Projects page (under
-// its h1), h3 inside Home's featured section (under the section's h2).
-
+// Editorial project entry; verified links are optional.
 export default function ProjectCard({ project, headingLevel = 2 }) {
   const HeadingTag = headingLevel === 2 ? 'h2' : 'h3'
   const hasLinks = Boolean(project.url || project.repo)
 
   return (
-    <article className="card">
+    <article className="project-entry">
       <HeadingTag className="card-title">{project.title}</HeadingTag>
       <p className="card-tagline">{project.tagline}</p>
-      <ul className="tech-list" aria-label={`Technologies used in ${project.title}`}>
+      {project.body?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      <ul className="work-tech" aria-label={`Technologies used in ${project.title}`}>
         {project.tech.map((item) => (
-          <li key={item} className="tech-chip">
+          <li key={item}>
             {item}
           </li>
         ))}
